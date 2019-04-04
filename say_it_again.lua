@@ -55,20 +55,20 @@ Abbreviations used in code:
 local sia_settings =
 {
     charset = "iso-8859-1",          -- works for english and french subtitles (try also "Windows-1252")
-    dict_dir = "C:/dict",            -- where Stardict dictionaries are located
-    wordnet_dir = "C:/dict/wordnet", -- where WordNet files are located
-    chosen_dict = "C:/dict/OxfordAmericanDictionaryEnEn", -- Stardict dictionary used by default (there should be 3 files with this name but different extensions)
-    words_file_path = nil, -- if 'nil' then "Desktop/sia_words.txt" will be used
+    dict_dir = "d:/Soft/VLC/dict",            -- where Stardict dictionaries are located
+    wordnet_dir = "d:/Soft/VLC/wordnet", -- where WordNet files are located
+    chosen_dict = "d:/Soft/VLC/dict/Wiktionary English-Russian", -- Stardict dictionary used by default (there should be 3 files with this name but different extensions)
+    words_file_path = "d:/Soft/VLC/dict/words.txt", -- if 'nil' then "Desktop/sia_words.txt" will be used
     always_show_subtitles = false,
     osd_position = "top",
-    help_duration = 6, -- sec; change to nil to disable osd help
+    help_duration = nil, -- sec; change to nil to disable osd help
     log_enable = true, -- Logs can be viewed in the console (Ctrl-M)
     definition_separator = "<br />", -- separator used if multiple definitions are selected for saving
 
-    key_prev_subt = 121, -- y
-    key_next_subt = 117, -- u
+    key_prev_subt = 121, -- y 121
+    key_next_subt = 117, -- u 117
     key_again = 8, -- backspace
-    key_save = 105, -- i
+    key_save = 105, -- i 105
 }
 
 
@@ -516,7 +516,7 @@ function goto_prev_subtitle()
     local input = vlc.object.input()
     if not input then return end
 
-    local curr_time = vlc.var.get(input, "time")
+    local curr_time = vlc.var.get(input, "time") - 1 -- rs
 
     g_subtitles:move(curr_time)
 
@@ -527,7 +527,7 @@ function goto_next_subtitle()
     local input = vlc.object.input()
     if not input then return end
 
-    local curr_time = vlc.var.get(input, "time")
+    local curr_time = vlc.var.get(input, "time") - 1 -- rs
 
     g_subtitles:move(curr_time)
 
@@ -912,7 +912,7 @@ function trim(str)
 end
 
 function to_sec(h,m,s,ms)
-    return tonumber(h)*3600 + tonumber(m)*60 + tonumber(s) + tonumber(ms)/1000
+    return tonumber(h)*3600 + tonumber(m)*60 + tonumber(s) + tonumber(ms)/1000 - 0.7 -- rs
 end
 
 function playback_goto(input, time)
